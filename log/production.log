@@ -1,0 +1,8 @@
+# Logfile created on 2021-05-10 13:46:53 +0000 by logger.rb/66358
+I, [2021-05-10T13:46:53.674202 #447]  INFO -- : (0.000218s) PRAGMA foreign_keys = 1
+I, [2021-05-10T13:46:53.674294 #447]  INFO -- : (0.000019s) PRAGMA case_sensitive_like = 1
+I, [2021-05-10T13:46:53.708808 #447]  INFO -- : (0.000054s) SELECT sqlite_version()
+I, [2021-05-10T13:46:53.709041 #447]  INFO -- : (0.000100s) PRAGMA table_info('requests')
+I, [2021-05-10T13:46:53.710102 #447]  INFO -- : (0.000109s) PRAGMA table_info('admins')
+I, [2021-05-10T13:46:53.710599 #447]  INFO -- : (0.000092s) PRAGMA table_info('mentees')
+I, [2021-05-10T13:46:53.711121 #447]  INFO -- : (0.000121s) PRAGMA table_info('mentors')
