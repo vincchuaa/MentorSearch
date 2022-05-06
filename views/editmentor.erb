@@ -1,0 +1,56 @@
+<html>
+<head>
+  <title>Mentor Details</title>
+  <link rel="stylesheet" href="style/search.css">
+  <link rel="stylesheet" href="style/index.css">
+</head>
+<body>
+  <bars>
+    <account>
+      <a>You are currently logged in as <%= session[:username] %></a>
+    </account>
+
+    <tip>
+      <a href="profile">Back to My Profile</a>               
+    </tip>
+  </bars>   
+
+  <div class="wrapper">
+    <h1>Account Details</h1>
+
+    <form method="post" action="/editmentor">
+      <input type="hidden" name="id" />
+      <p class="field"><input type="hidden" name="firstname" value="<%= h @mentor.firstname %>"  readonly/></p>
+            
+      <p class="field"><input type="hidden" name="lastname" value="<%= h @mentor.lastname %>" readonly /></p>
+            
+      <p class="label">Email:</p>
+      <p class="field"><input type="email" name="email" value="<%= h @mentor.email %>"/></p>
+      <% if @mentor.errors.include?("email") %>
+        <% @mentor.errors["email"].each do |error| %>
+          <p><strong class = "error">Email <%= error %></strong></p>
+        <% end %>
+      <% end %>
+       
+      <p class="label">Username:</p>
+      <p class="field"><input type="text" name="username" value="<%= h @mentor.username %>"/></p>
+      <% if @mentor.errors.include?("username") %>
+        <% @mentor.errors["username"].each do |error| %>
+          <p><strong class = "error">Username <%= error %></strong></p>
+        <% end %>
+      <% end %>
+
+      <p class="label">Password:</p>
+      <p class="field"><input id="password" type="password" name="password" value="<%= h @mentor.password %>"/></p>
+      <input type="checkbox" onclick="myFunction()">Show Password
+      <script src="js/showpassword.js"></script>
+
+      <p class="field"><input type="hidden" name="domain" value="<%= h @mentor.domain %>" /></p>
+
+      <input type="hidden" name="suspended" value="<%= h @mentor.suspended %>" />
+      <input type="hidden" name="availability" value="<%= h @mentor.availability %>" />
+      <p class="save"><input type="submit" name="submit" value="Save Changes"/></p>
+    </form>
+  </div>
+</body>
+</html>

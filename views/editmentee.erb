@@ -1,0 +1,53 @@
+<html>
+<head>
+  <title>Mentee Details</title>
+  <link rel="stylesheet" href="style/search.css">
+  <link rel="stylesheet" href="style/index.css">
+</head>
+<body>
+  <bars>
+    <account>
+      <a>You are currently logged in as <%= session[:username] %></a>
+    </account>
+            
+    <tip>
+      <a href="search">Back to Dashboard</a>               
+    </tip>
+  </bars>        
+  <div class="wrapper">
+    <h1>Account Details</h1>
+            
+    <form method="post" action="/editmentee">
+      <input type="hidden" name="id" />
+      <p class="label">Email:</p>
+      <p class="field"><input type="email" name="email" value="<%= @mentee.email %>"/></p>
+      <% if @mentee.errors.include?("email") %>
+         <% @mentee.errors["email"].each do |error| %>
+           <p><strong class = "error">Email <%= error %></strong></p>
+         <% end %>
+      <% end %>
+       
+      <p class="label">Username:</p>
+      <p class="field"><input type="text" name="username" value="<%= @mentee.username %>"/></p>
+      <% if @mentee.errors.include?("username") %>
+         <% @mentee.errors["username"].each do |error| %>
+            <p><strong class = "error">Username <%= error %></strong></p>
+         <% end %>
+      <% end %>
+      
+      <p class="label">Password:</p>
+      <p class="field"><input id="password" type="password" name="password" value="<%= @mentee.password %>"/></p>
+         <% if @mentee.errors.include?("password") %>
+           <% @mentee.errors["password"].each do |error| %>
+             <p><strong class = "error">Password <%= error %></strong></p>
+           <% end %>
+         <% end %>
+      <input type="checkbox" onclick="myFunction()">Show Password
+      <script src="js/showpassword.js"></script>
+              
+      <p class="field"><input type="hidden" name="suspended" value="<%= @mentee.suspended %>"/></p>
+      <p class="save"><input type="submit" name="submit" value="Save Changes"/></p>
+    </form>
+  </div>
+</body>
+</html>

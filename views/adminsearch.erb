@@ -1,0 +1,90 @@
+<html>
+<head>
+  <title>User data</title>
+  <link rel="stylesheet" href="style/index.css">
+</head>
+
+<div class="wrapperadmin">
+<body>
+  <a href="/admin_whitelist">Go to Email WhiteList</a>
+  <h1>User search</h1>
+  <strong>You are currently logged in as <%= session[:username] %></strong>
+  <strong><a href="logout_admin">Click here to log out.</a></strong>
+   
+  <form method="get" action="/adminsearch" name = "adminsearch">
+    <p>Search for mentee using their email 
+      <input type="text" name="email_search" value="<%= h @email_search %>">
+      <input type="submit" name="submit" id="submit" value="Search Mentee" >
+    </p>
+  </form>
+          
+  <br />
+         
+  <div class="menteet">
+    <% if @mentees.count > 0 %>
+      <table>
+        <tr>
+          <th>Email</th>
+          <th>Username</th>
+          <th>Password</th>
+          <th>Suspended</th>
+        </tr>
+        <%if !@mentees.nil? %>
+          <% @mentees.each do |mentee| %>
+            <tr>
+              <td><%= h mentee.email %></td>
+              <td><%= h mentee.username %></td>
+              <td><%= h mentee.password %></td>
+              <td><%= h mentee.suspended %></td>
+              <td><a href="/adminedit?id=<%= h mentee.id %>">Edit</a></td>
+            </tr>
+          <% end %>
+        <% end %>
+      </table>
+    <% else %>
+      <p><strong class = "error">No mentees match your search.</strong></p>
+    <% end %>
+  </div> 
+          
+  <br />
+          
+  <form method="get" action="/adminsearch" name = "adminsearch">
+    <p>Search for a mentor using their email 
+      <input type="text" name="email_search_mentor" value="<%= h @email_search_mentor %>">
+      <input type="submit" name="submit_mentor" id="submit_mentor" value="Search Mentor" >
+    </p>
+  </form>
+          
+  <br />
+  
+  <div class="mentort">
+    <% if @mentors.count > 0 %>
+      <table>
+        <tr>
+          <th>Email</th>
+          <th>Username</th>
+          <th>Password</th>
+          <th>Domain</th>
+          <th>Suspended</th>
+        </tr>
+            
+        <%if !@mentors.nil? %>
+          <% @mentors.each do |mentor| %>
+            <tr>
+              <td><%= h mentor.email %></td>
+              <td><%= h mentor.username %></td>
+              <td><%= h mentor.password %></td>
+              <td><%= h mentor.domain %></td>
+              <td><%= h mentor.suspended %></td>
+              <td><a href="/adminedit_mentor?id=<%= h mentor.id %>">Edit</a></td>
+            </tr>
+          <% end %>
+        <% end %>
+      </table>
+    <% else %>
+      <p><strong class = "error">No mentors match your search.</strong></p>
+    <% end %>
+  </div> 
+</body>
+</div>
+</html>

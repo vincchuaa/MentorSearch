@@ -1,0 +1,138 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Search</title>
+  <link rel="stylesheet" href="/style/index.css">
+  <link rel="stylesheet" href="/style/search.css">
+</head>
+  
+<body>
+  <% if session[:user_type] == 'Mentor' %>
+  <bars>
+    <account>
+      <a>You are currently logged in as <%= session[:username] %></a>
+    </account>
+          
+    <tip>
+      <a href="logout_mentor">Click here to log out.</a>               
+    </tip>
+  </bars>
+  
+  <div class="details">
+    <h1>Personal Details</h1>
+     <p> <b>Email:</b>
+      <%= @user.email %>
+    </p>
+    <p> <b>Username:</b>
+      <%= @user.username %>
+    </p>
+    <p> <b>First Name:</b>
+      <%= @user.firstname %>
+    </p>
+    <p> <b>Last Name:</b>
+      <%= @user.lastname %>
+    </p>
+    <div class="lr">
+      <p> <b>Field of Expertise:</b>
+        <%= @user.domain %>
+      </p>
+      <a class="edit" href="/editmentor?id=<%= h session[:user_id] %>">Edit Details</a>
+    </div>
+    <form class = radio method="post" action="/set_availability">
+      <% if @user.availability == 0%>
+        <p>You are currently <strong>available.</strong></p>
+      <% else %>
+        <p>You are currently <strong>unavailable.</strong></p>
+      <% end %>
+      <p>Change your availability:</p>
+      <input class="radio_button" type="radio" id="available" name="availability" value="available">
+      <label class="radio_label"for="available">Available</label><br>
+      <input class="radio_button" type="radio" id="unavailable" name="availability" value="unavailable">
+      <label class="radio_label" for="unavailable">Unavailable</label><br>
+      <input type="submit" name="submit" id="submit" value="Submit">
+    </form>
+  </div>
+  
+  <div class="details">
+    <h1>Pairing Request</h1>
+    <% if !@request_ids.nil? %>
+      <% if @request_count == 1 %>
+        <p id="mentor_count">The following mentee has requested to pair.</p>
+      <% elsif @request_count > 0 %>
+        <p id="mentor_count">The following <%= @request_count %> mentees have requested to pair.</p>
+      <% else %>
+        <p id="mentor_count">You have no pending mentee requests.</p>
+      <% end %>
+      
+      <div class="requests">
+        <% @request_ids.each do |request| %>
+          <% mentee = request.get_user('Mentee') %>
+          <div class="request">
+              <p><b>Username:</b> <%= mentee.username %></p>
+            <div class="lr">
+              <p>Email: <%= mentee.email %></p>
+            <% if request.paired == 0 %>
+              <a class="edit" href="/accept_mentee?id=<%= h mentee.id %>">Accept Mentee</a>
+            <% else %>
+              <p class="accept">You have accepted this mentee</p>
+            <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+    
+  <% elsif session[:logged_in] == true %>
+   <bars>
+     <account>
+         <a>You are currently logged in as <%= session[:username] %></a>
+     </account>      
+     <tip>
+         <a href="search">Back to Dashboard</a>               
+     </tip>
+   </bars>
+    
+    <div class="details">
+      <h1>Account Details</h1>
+      <p> <b>Email:</b>
+        <%= @user.email %>
+      </p>
+      <div class="lr">
+        <p> <b>Username:</b>
+          <%= @user.username %>
+        </p>
+        <a class="edit" href="/editmentee?id=<%= h session[:user_id] %>">Edit Details</a>
+      </div>  
+    </div>
+    
+    <div class="details">
+      <h1>Pairing Request</h1>
+      <%if !@request_ids.nil? %>
+        <% if @request_count > 0 %>
+          <p>You have the following request pending: </p>
+        <% else %>
+          <p>You have no pending mentor requests.</p>
+        <% end %>
+      <div class="request">
+        <% @request_ids.each do |request| %>
+          <% mentor = request.get_user('Mentor') %>
+          <p><b>Username:</b> <%= mentor.username %></p>
+          <p><b>Field of Expertise:</b> <%= mentor.domain %> </p>
+          <p><b>Email:</b> <%= mentor.email %> </p>
+          <p><b>First Name:</b> <%= mentor.firstname %> </p>
+          <div class="lr">
+          <p><b>Last Name:</b> <%= mentor.lastname %> </p>
+          <% if request.paired == 1 %>
+            <p class="accept">This mentee has accepted your request to pair</p>
+          <% else %>
+            <a class="edit" href="/cancel_request?id=<%= mentor.id %>">Cancel Request</a>
+          <% end %>
+          </div>
+        <% end %>
+      <% end %>
+      </div>
+    <% end %>
+  </div>
+</body>
+</html>

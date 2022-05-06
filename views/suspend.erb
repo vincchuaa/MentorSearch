@@ -1,0 +1,44 @@
+<html>
+<head>
+  <title>suspended</title>
+  <link rel="stylesheet" href="style/error.css">
+</head>
+  
+<body>
+  <h2><img src="/pictures/mentorlogo.png"></h2>
+  <div class="suspend">
+    <div class="leftright">
+      <h3>Your account is suspended</h3>
+      <p>Sorry to inform you but your account has been banned</p>
+      <p>We received several complains from other users which indicates you have been violating the rules and regulations</p>
+      <p>If you believe this is an error, please enter your email address below to appeal your suspension <u>
+        
+      <form action="/suspension_appeal" method="post" onsubmit="alert('Email has been sent');">
+        <p>
+        <input type="hidden"name="subject" value="Appeal suspension"  required> <br>
+        </p>
+          
+        <p>
+        <input type="hidden" name="body" value="please reconsider my suspension"/> <br>
+        </p>
+        
+        <p>
+        <label for ="email">Enter your email</label><br>
+        <input type="email" name="sender" /> <br>
+        </p>
+
+        <p>
+        <input type="submit" value="submit" name="submit">
+        </p>
+
+      </form></u></p>
+      
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>MentorSearch Team</p>
+    </div>
+  </div>
+  
+</body>
+</html>

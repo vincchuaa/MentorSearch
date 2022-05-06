@@ -1,0 +1,61 @@
+<html>
+<head>
+  <title>Registration</title>
+  <link rel="stylesheet" href="style/index.css">
+</head>
+<div class="form">
+<div class="wrapper">
+<body>
+  <h1>Registration Page Mentee</h1>
+  <form method="post" action= "/register" >
+    <% unless @error.nil? %>
+    <p><strong class="error"><%= @error %></strong></p>
+    <% end %>
+      
+    <div class ="text-box">
+      <p>
+         <label for="email">Email: </label>
+         <input type="email" name="email" id="email" value="<%= h @user.email %>" placeholder="Email address">
+      </p>
+      <% if @user.errors.include?("email") %>
+        <% @user.errors["email"].each do |error| %>
+          <p><strong class = "error">Email <%= error %></strong></p>
+        <% end %>
+      <% end %>
+      
+      <p>
+        <label for="username">Username: </label>
+        <input type="text" name="username" id="username" value="<%= h @user.username %>" placeholder="Username">
+      </p>
+      <% if @user.errors.include?("username") %>
+        <% @user.errors["username"].each do |error| %>
+          <p><strong class = "error">Username <%= error %></strong></p>
+        <% end %>
+      <% end %>
+    
+      <p>
+        <label for="password">Password: </label>
+        <input type="password" name="password" id="password" value="<%= h @user.password %>" placeholder="Password">
+      </p>
+      <% if @user.errors.include?("password") %>
+        <% @user.errors["password"].each do |error| %>
+          <p><strong class = "error">Password <%= error %></strong></p>
+        <% end %>
+      <% end %>
+      
+      <input type="hidden" id="suspended" name="suspended" value=0>
+    </div>
+    
+    <input type="checkbox" onclick="myFunction()">Show Password
+    <script src="/js/showpassword.js"></script>
+    <p>
+      <input type="submit" name="submit" id="submit" value="Register">
+    </p>
+    <p>Have an account?</p>
+    <p><a href="/chooselogin">Login here </a></p>
+    <p><a href="/">Back to Home</a></p>
+  </form>
+</body>
+</div>
+</div>
+</html>

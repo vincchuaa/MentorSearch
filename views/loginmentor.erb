@@ -1,0 +1,54 @@
+<html>
+<head>
+   <meta charset="utf-8">
+   <title>Login</title>
+   <link rel="stylesheet" href="style/index.css">
+</head>
+  
+<div class="form">
+<div class="wrapper">
+<body>
+  <h1>Login to MentorSearch</h1>
+  <form name="myform" action="/loginmentor" method="post">
+    <div class="text-box">
+      <p>
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" value="<%= @user.username %>" placeholder="Username">
+      </p>     
+      <% if @user.errors.include?("username") %>
+       <% @user.errors["username"].each do |error| %>
+         <p><strong class = "error">Username <%= error %></strong></p>
+       <% end %>
+      <% end %>
+      
+      <p>
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" value="<%= @user.password %>" placeholder="Password">
+      </p>
+      <% if @user.errors.include?("password") %>
+       <% @user.errors["password"].each do |error| %>
+         <p><strong class = "error">Password <%= error %></strong></p>
+       <% end %>
+      <% end %>
+      
+      <input type="checkbox" onclick="myFunction()">Show Password
+      <script src="js/showpassword.js"></script>
+    </div>
+    
+    <% unless @error.nil? %>
+     <p><strong class="error"><%= @error %></strong></p>
+    <% end %>
+    
+    <p>
+      <input type="submit" name="submit" id="submit" value="Login">
+    </p>
+    
+    <p><a href="/forgotpassword">Forgot Password?</a></p>
+    <p>Don't have an account?</p>
+    <p><a href="/choose">Register here</a></p>
+    <p><a href="/">Back to Home</a></p>
+  </form>
+</body>
+</div>
+</div>
+</html>

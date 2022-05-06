@@ -1,0 +1,91 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Search</title>
+  <link rel="stylesheet" href="/style/index.css">
+  <link rel="stylesheet" href="/style/search.css">
+</head>
+  
+<body>
+  <bars>
+    <account>
+      <% unless session[:logged_in] == true %>
+        <a href="chooselogin">
+          Login to MentorSearch &nbsp; &nbsp; ►
+        </a>
+      <% else %>
+        <a>
+          You are currently logged in as <%= session[:username] %>
+        </a>
+      <% end %>
+    </account>
+          
+    <tip>
+      <% unless session[:logged_in] == true %>
+        <a href="choose">Don't have an account? Sign up here</a>
+      <% else %>
+        <a href="logout">Click here to log out.</a>
+        <div class="right">
+          <a href="/profile"><img class="editlogo" src="pictures/edit.png"></a> 
+        </div>
+      <% end %>
+    </tip>
+  </bars>
+      
+  <main>
+    <form method="get" action="/search" name = "search">
+      <label name = "search_field">
+        <img src="MagnifyingGlass.bmp">
+        <button type="submit" value="Submit" name="submit">Search</button>
+        <input type = "text" name ="search_field" maxlength = "40" size = "20" 
+            value="<%= h @search_field %>" placeholder = "Search for a subject..." >
+        </label>
+    </form>
+  <% if !@mentor_count.nil? %>
+    <% if @mentor_count == 1 %>
+      <p id="mentor_count">There is <%= @mentor_count %> mentor that can help you, only available ones are shown</p>
+    <% elsif @mentor_count > 0 %>
+      <p id="mentor_count">There are <%= @mentor_count %> mentors that can help you, only available ones are shown</p>
+    <% elsif @searched %>
+      <p id="mentor_count">No mentors match your search.</p>
+    <% end %>
+
+    <% if @mentor_count > 0 && !session[:logged_in] %>
+      <p id="mentor_count">Please log in to view the mentors.</p>
+    <% end %>
+  <% end %>
+
+  <%if !@mentors.nil? %>
+    <% @mentors.each do |mentor| %>
+    <% if mentor.suspended == 0 && mentor.availability ==0%>
+      <dataBox>
+        <h1><%= mentor.username %></h1>
+        <p><%= mentor.domain %> </p>
+        <p><%= mentor.email %> </p>
+        <p><%= mentor.firstname %> </p>
+        <p><%= mentor.lastname %> </p>
+        <form action="/email_mentor" method="post" onsubmit="alert('Email has been sent');">
+          <input type="hidden" name="sender" value="<%= session[:email] %>">
+          <input type="hidden" name="recipient" value="<%= mentor.email %>">
+          <input type="hidden"name="subject" value="Request for a meeting"  required> <br>
+          <input type="hidden" name="body" value="Hi, I would like to have a meeting with you"/> <br>
+        <% if @mentee_available %>
+          <button type="submit">Send an email</button>
+          <a href="request/<%= mentor.id %>">Request to pair</a>
+        </form>
+        <% else %>
+        <!-- IMPORTANT: </form> is written twice because depending on the if statment
+              the form needs to be closed at different times.
+              The linter is showing an error and highlighting the second </form>
+              this is not an error and the code does not crash-->
+        </form>
+          <p>You can't send any requests. View pending requests on your <a href="/profile">profile</a>.</p>
+        <% end %>
+      </dataBox>
+      <% end %>
+    <% end %>
+  <% end %>
+  </main>
+      
+</body>
+</html>

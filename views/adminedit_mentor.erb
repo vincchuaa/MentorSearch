@@ -1,0 +1,60 @@
+<html>
+<head>
+  <title>Edit user</title>
+  <link rel="stylesheet" href="style/index.css">
+</head>
+
+<div class="wrapper">
+<body>
+  <% if @mentor.nil? %>
+    <p class="error"><strong>User does not exist</strong></p>
+    <p>Return to <a href="/adminsearch">Admin search</a>.</p>
+  <% else %>
+    <h1>Edit mentor</h1>
+    <strong>You are currently logged in as <%= session[:username] %></strong>
+    <strong><a href="logout">Click here to log out.</a></strong>
+          
+    <form method="post" action= "/adminedit_mentor">
+      <input type="hidden" name="id" value="<%= @mentor.id %>" />
+      <p class="label">First name</p>
+      <p class="field"><input type="text" name="firstname" value="<%= h @mentor.firstname %>"  readonly/></p>
+            
+      <p class="label">Last name</p>
+      <p class="field"><input type="text" name="lastname" value="<%= h @mentor.lastname %>" readonly /></p>
+            
+      <p class="label">Email</p>
+      <p class="field"><input type="text" name="email" value="<%= h @mentor.email %>" readonly  /></p>
+            
+      <p class="label">Username</p>
+      <p class="field"><input type="text" name="username" value="<%= h @mentor.username %>" readonly /></p>
+         
+      <p class="label">Password</p>
+      <p class="field"><input type="text" name="password" value="<%= h @mentor.password %>" /></p>
+      <% if @mentor.errors.include?("password") %>
+        <% @mentor.errors["password"].each do |error| %>
+          <p><strong class = "error">Password <%= error %></strong></p>
+        <% end %>
+      <% end %>
+            
+      <p class="label">Domain</p>
+      <p class="field"><input type="text" name="domain" value="<%= h @mentor.domain %>"  readonly/></p>
+            
+      <input type="hidden" name="suspended" value="<%= h @mentor.suspended %>" />
+      <input type="hidden" name="availability" value="<%= h @mentor.availability %>" />
+            
+      <p class="submit"><input type="submit" value="submit" /></p>
+    </form>
+          
+    <form method="post" action="/suspend_mentor">
+      <input type="hidden" name="id" value="<%= @mentor.id %>" />
+      <input type="submit" name="suspend" value="suspend" onclick="return confirm('Are you sure?')" />
+    </form>
+          
+    <form method="post" action="/restore_mentor">
+      <input type="hidden" name="id" value="<%= @mentor.id %>" />
+      <input type="submit" name="restore" value="restore" onclick="return confirm('Are you sure?')" />
+    </form>
+  <% end %>
+</body>
+</div>
+</html>

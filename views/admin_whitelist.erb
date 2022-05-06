@@ -1,0 +1,44 @@
+<html>
+<head>
+  <title>User data</title>
+  <link rel="stylesheet" href="style/index.css">
+</head>
+  
+<div class="wrapperadmin">
+<body>
+  <a href="/adminsearch">Back to Admin Page</a>
+  <h1>User search</h1>
+  <strong>You are currently logged in as <%= session[:username] %></strong>
+  <strong><a href="logout_admin">Click here to log out.</a></strong>
+          
+  <form method="post" action="/admin_whitelist_add" name = "admin_whitelist_add">
+    <p>Add an email suffix to the whitelist: 
+      <input type="text" name="suffix" value="<%= h @suffix %>">
+      <input type="submit" name="submit" id="submit" value="Submit">
+    </p>
+  </form>
+          
+  <p>
+    Whitelisted addresses for mentee registration.  
+    Removing a suffix will only prevent registration with that email suffix, it will not remove any 
+    existing mentees.
+  </p>
+          
+  <br />
+            
+  <div class="whitelist">
+    <table>
+      <tr>
+        <th>Email</th>
+      </tr>
+      <% @suffix_list.each do |suffix| %>
+      <tr>
+        <td><%= suffix %></td>
+          <td><a href="/admin_whitelist_remove?suffix=<%= h suffix %>">Remove</a></td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</body>
+</div>
+</html>
